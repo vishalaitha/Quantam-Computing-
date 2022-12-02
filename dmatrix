@@ -1,0 +1,21 @@
+#2
+qc=QuantumCircuit(2,2)
+from qiskit.quantum_info import Statevector
+state=Statevector.from_int(1,4)
+state=state.evolve(qc)
+state.draw('latex')
+qc=QuantumCircuit(2,2)
+#qc.h(1)
+qc.cx(0,1)
+qc.h(1)
+qc.cx(1,0)
+
+qc.draw()
+
+from qiskit.quantum_info import Statevector,DensityMatrix
+state=Statevector.from_int(1,4)
+state=state.evolve(qc)
+state.draw('latex')
+import qiskit.quantum_info as qi
+rho_AB = qi.DensityMatrix.from_instruction(qc)
+rho_AB.draw('latex', prefix='\\rho_{AB} = ')
