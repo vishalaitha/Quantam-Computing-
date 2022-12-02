@@ -1,0 +1,44 @@
+import numpy as np
+
+# Importing standard Qiskit libraries
+from qiskit import QuantumCircuit, transpile, Aer, IBMQ, QuantumRegister, ClassicalRegister, execute, BasicAer
+from qiskit.tools.jupyter import *
+from qiskit.visualization import *
+from ibm_quantum_widgets import *
+from qiskit.providers.aer import QasmSimulator
+
+# Loading your IBM Quantum account(s)
+provider = IBMQ.load_account()
+
+
+backend = BasicAer.get_backend('qasm_simulator')
+shots=1024
+
+
+qreg1 = QuantumRegister(2) 
+register1 = ClassicalRegister(1) 
+
+
+
+qc = QuantumCircuit(qreg1, register1)
+qc.x(1)
+qc.barrier()
+qc.h([0,1])
+qc.barrier()
+qc.draw()
+
+
+qc.cx(0,1)
+qc.barrier()
+qc.draw()
+
+qc.h(0)
+qc.draw()
+
+qc.measure(qreg1[0],register1)
+qc.draw()
+
+results = execute(qc, backend=backend, shots=shots).result()
+answer = results.get_counts()
+
+plot_histogram(answer)
